@@ -1638,7 +1638,8 @@ summary:focus-visible {
   border-top: 1px solid #ffffff20;
   padding-top: 22px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  text-align: center;
   gap: 20px;
   color: #ffffff70;
   font-size: 9px;
@@ -1646,7 +1647,7 @@ summary:focus-visible {
 .footer-bottom > span:last-child {
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  font-size: 8px;
+  font-size: 10px;
 }
 .product-dialog {
   border: 0;
@@ -2092,9 +2093,6 @@ summary:focus-visible {
   .back-top {
     grid-column: 3;
     grid-row: 1;
-  }
-  .footer-bottom > span:last-child {
-    display: none;
   }
 }
 @media (max-width: 700px) {

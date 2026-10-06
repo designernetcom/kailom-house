@@ -825,9 +825,13 @@ export default function Home() {
             </a>
           </div>
           <div className="footer-bottom">
-            <span>© Kailom House. All rights reserved.</span>
-            <span>www.kailomhouse.com</span>
-            <span>Precision × Engineering × Confidence</span>
+            <span>
+              © Kailom House. All Rights Reserved. Designed &amp; Developed By{" "}
+              <a href="https://www.netcom-india.com/index.html">
+                Netcom Business Solutions Pvt Ltd
+              </a>
+            </span>
+        
           </div>
         </div>
       </footer>
