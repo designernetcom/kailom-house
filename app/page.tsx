@@ -2,16 +2,11 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import SiteFooter from "./components/SiteFooter";
+import SiteHeader from "./components/SiteHeader";
+import { Arrow } from "./components/site-shared";
 
 const asset = (name: string) => `/assets/img/all-images/${name}`;
-const navItems = [
-  ["Home", "#top"],
-  ["About", "#about"],
-  ["Products", "#products"],
-  ["Solutions", "#solutions"],
-  ["Clients", "#clients"],
-  ["Contact", "#contact"],
-];
 const categories = [
   {
     title: "Electric Assembly Tools",
@@ -101,19 +96,6 @@ const clients = [
   "Ashok Leyland",
 ];
 
-function Arrow({ down = false }: { down?: boolean }) {
-  return (
-    <svg
-      className="arrow"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-      style={down ? { rotate: "90deg" } : undefined}
-    >
-      <path d="M4 12h15M12 5l7 7-7 7" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-  );
-}
 function Label({
   number,
   children,
@@ -126,23 +108,6 @@ function Label({
       <span>{number}</span>
       {children}
     </p>
-  );
-}
-function Brand() {
-  return (
-    <a className="brand" href="#top" aria-label="Kailom House home">
-      <span className="brand-art">
-        <Image
-          src="/assets/img/logo/kailom/kailom-logo-full.png"
-          alt="Kailom"
-          width={5680}
-          height={3264}
-          sizes="200px"
-          loading="eager"
-        />
-      </span>
-      <span>HOUSE / INDUSTRIAL TOOLS</span>
-    </a>
   );
 }
 function ContactLinks() {
@@ -276,49 +241,13 @@ export default function Home() {
         Skip to content
       </a>
       <div id="top" className="header-sentinel" aria-hidden="true" />
-      <header
-        className={`site-header ${scrolled ? "is-scrolled" : ""} ${menuOpen ? "menu-open" : ""}`}
-      >
-        <div className="shell header-inner">
-          <Brand />
-          <nav
-            id="primary-nav"
-            className={`nav ${menuOpen ? "is-open" : ""}`}
-            aria-label="Primary navigation"
-          >
-            {navItems.map(([title, href]) => (
-              <a key={title} href={href} onClick={() => setMenuOpen(false)}>
-                {title}
-              </a>
-            ))}
-            <a
-              className="button button-orange mobile-cta"
-              href="#contact"
-              onClick={() => setMenuOpen(false)}
-            >
-              Enquire now <Arrow />
-            </a>
-          </nav>
-          <a
-            className="header-cta"
-            href="#contact"
-            onClick={() => setMenuOpen(false)}
-          >
-            Enquire now <Arrow />
-          </a>
-          <button
-            ref={menuRef}
-            className="menu-toggle"
-            aria-expanded={menuOpen}
-            aria-controls="primary-nav"
-            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            <span />
-            <span />
-          </button>
-        </div>
-      </header>
+      <SiteHeader
+        menuOpen={menuOpen}
+        scrolled={scrolled}
+        menuRef={menuRef}
+        onMenuToggle={() => setMenuOpen(!menuOpen)}
+        onNavigate={() => setMenuOpen(false)}
+      />
 
       <main id="main" inert={menuOpen}>
         <section ref={heroRef} className="hero" aria-labelledby="hero-title">
@@ -802,39 +731,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className="site-footer" inert={menuOpen}>
-        <div className="shell">
-          <div className="footer-main">
-            <Brand />
-            <p>
-              Industrial Tools for
-              <br />
-              Confident Assembly
-            </p>
-            <nav aria-label="Footer navigation">
-              {navItems
-                .filter(([title]) => title !== "Home")
-                .map(([title, href]) => (
-                  <a key={title} href={href}>
-                    {title}
-                  </a>
-                ))}
-            </nav>
-            <a className="back-top" href="#top" aria-label="Back to top">
-              <Arrow />
-            </a>
-          </div>
-          <div className="footer-bottom">
-            <span>
-              © Kailom House. All Rights Reserved. Designed &amp; Developed By{" "}
-              <a href="https://www.netcom-india.com/index.html">
-                Netcom Business Solutions Pvt Ltd
-              </a>
-            </span>
-        
-          </div>
-        </div>
-      </footer>
+      <SiteFooter menuOpen={menuOpen} />
 
       <dialog
         ref={dialogRef}
