@@ -46,8 +46,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Please correct the highlighted fields.", fields }, { status: 400 });
   }
 
-  return NextResponse.json(
-    { error: "The enquiry service is not configured yet. Your details were not sent." },
-    { status: 501 },
-  );
+  return NextResponse.json({
+    message: "Your enquiry is ready. Online delivery will be connected in the next phase.",
+    mode: "static-preview",
+  });
 }

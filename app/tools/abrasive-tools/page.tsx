@@ -5,98 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import SiteFooter from "../../components/SiteFooter";
 import SiteHeader from "../../components/SiteHeader";
 import { Arrow } from "../../components/site-shared";
-
-type AbrasiveToolProduct = {
-  model: string;
-  description: string;
-  freeSpeed: string;
-  airInlet: string;
-  hoseSize: string;
-  weight: string;
-};
-
-const products: AbrasiveToolProduct[] = [
-  {
-    model: "KG-5206M",
-    description: "6 mm Heavy Duty Die Grinder",
-    freeSpeed: "32000",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "0.73",
-  },
-  {
-    model: "KG-512",
-    description: "6 mm Die Grinder",
-    freeSpeed: "23000",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "0.6",
-  },
-  {
-    model: "KG-5001",
-    description: "3 mm Micro Die Grinder",
-    freeSpeed: "56000",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "0.25",
-  },
-  {
-    model: "KG-522",
-    description: "6 mm Angle Die Grinder",
-    freeSpeed: "22000",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "0.5",
-  },
-  {
-    model: "KAG-619",
-    description: "4\" Angle Grinder",
-    freeSpeed: "12000",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "1.8",
-  },
-  {
-    model: "KAS-6661-SM",
-    description: "7\" Angle Sander",
-    freeSpeed: "4500",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "1.9",
-  },
-  {
-    model: "KSAN-50VE",
-    description: "5\" Orbital Sander",
-    freeSpeed: "12000",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "0.81",
-  },
-  {
-    model: "KBS-4518",
-    description: "10 mm Heavy Duty Belt Sander",
-    freeSpeed: "16000",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "0.95",
-  },
-  {
-    model: "KBS-4517",
-    description: "20 mm Heavy Duty Belt Sander",
-    freeSpeed: "16000",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "1.4",
-  },
-  {
-    model: "MG-120",
-    description: "3 mm Air Micro Die Grinder",
-    freeSpeed: "65000",
-    airInlet: "1/4\"",
-    hoseSize: "6.4 mm",
-    weight: "0.1",
-  },
-];
+import { abrasiveToolProducts } from "./abrasive-tool-products";
 
 function Label({ number, children }: { number: string; children: React.ReactNode }) {
   return (
@@ -111,6 +20,11 @@ export default function AbrasiveToolsPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLButtonElement>(null);
+  const modelCount = String(abrasiveToolProducts.length).padStart(2, "0");
+
+  function specificationValue(product: (typeof abrasiveToolProducts)[number], label: string) {
+    return product.specifications.find((specification) => specification.label === label)?.value ?? "—";
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -135,8 +49,8 @@ export default function AbrasiveToolsPage() {
       <main id="main" inert={menuOpen}>
         <section className="catalogue-intro" aria-labelledby="abrasive-tools-title">
           <div className="shell">
-            <Link className="catalogue-breadcrumb" href="/tools/impact-wrenches">
-              Kailom Tools <Arrow /> Abrasive Tools
+            <Link className="catalogue-breadcrumb" href="/#products">
+              Tools <Arrow /> Kailom Tools <Arrow /> Abrasive Tools
             </Link>
             <div className="catalogue-intro-grid">
               <div>
@@ -148,7 +62,7 @@ export default function AbrasiveToolsPage() {
               </p>
             </div>
             <div className="catalogue-meta-rail">
-              <span><b>10</b> models listed</span>
+              <span><b>{modelCount}</b> models listed</span>
               <span><b>01</b> tool family</span>
               <span><b>RPM</b> performance data</span>
               <span className="micro">Kailom House / 2026 catalogue</span>
@@ -156,14 +70,14 @@ export default function AbrasiveToolsPage() {
           </div>
         </section>
 
-        <section className="catalogue-specs section" aria-labelledby="abrasive-tools-specs-title">
+        <section className="catalogue-specs section" id="specifications" aria-labelledby="abrasive-tools-specs-title">
           <div className="shell">
             <div className="catalogue-section-heading">
               <div>
                 <Label number="01">Abrasive tools specifications</Label>
                 <h2 id="abrasive-tools-specs-title">Compare the range <em>at a glance.</em></h2>
               </div>
-              <p>Values are shown exactly as supplied. Scroll horizontally on smaller screens to view every column.</p>
+              <p>Reference values are shown exactly as supplied. Scroll horizontally on smaller screens to view every column.</p>
             </div>
             <div className="catalogue-table-wrap" tabIndex={0} aria-label="Abrasive tools specifications table">
               <table className="catalogue-table">
@@ -178,14 +92,18 @@ export default function AbrasiveToolsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {products.map((product) => (
+                  {abrasiveToolProducts.map((product) => (
                     <tr key={product.model}>
-                      <th scope="row">{product.model}</th>
-                      <td>{product.description}</td>
-                      <td>{product.freeSpeed}</td>
-                      <td>{product.airInlet}</td>
-                      <td>{product.hoseSize}</td>
-                      <td>{product.weight}</td>
+                      <th scope="row">
+                        <Link className="catalogue-model-link" href={`/tools/abrasive-tools/${product.slug}`}>
+                          {product.model}<span aria-hidden="true"> ↗</span>
+                        </Link>
+                      </th>
+                      <td>{product.name}</td>
+                      <td>{specificationValue(product, "Free Speed (RPM)")}</td>
+                      <td>{specificationValue(product, "Air Inlet (NPT)")}</td>
+                      <td>{specificationValue(product, "Hose Size ID (mm)")}</td>
+                      <td>{specificationValue(product, "Weight (kgs)")}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -204,8 +122,13 @@ export default function AbrasiveToolsPage() {
               <p>Model-specific abrasive tool photography is not yet available in the project assets, so each card is clearly marked until the correct image is supplied.</p>
             </div>
             <div className="catalogue-gallery catalogue-gallery--abrasive-tools">
-              {products.map((product, index) => (
-                <article className="catalogue-product-card" key={product.model}>
+              {abrasiveToolProducts.map((product, index) => (
+                <Link
+                  className="catalogue-product-card"
+                  href={`/tools/abrasive-tools/${product.slug}`}
+                  key={product.model}
+                  aria-label={`View ${product.model} product page`}
+                >
                   <div className="catalogue-product-image">
                     <div className="catalogue-image-placeholder" aria-label={`${product.model} product image pending`}>
                       <span>Image pending</span>
@@ -215,9 +138,10 @@ export default function AbrasiveToolsPage() {
                   </div>
                   <div className="catalogue-product-caption">
                     <strong>{product.model}</strong>
-                    <span>{product.description}</span>
+                    <span>{product.name}</span>
+                    <span className="catalogue-product-link">View product <Arrow /></span>
                   </div>
-                </article>
+                </Link>
               ))}
             </div>
           </div>

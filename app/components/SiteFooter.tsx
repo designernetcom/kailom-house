@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 export default function SiteFooter({ menuOpen }: { menuOpen: boolean }) {
   const pathname = usePathname();
   const getHref = (href: string) => {
+    if (/^https?:\/\//.test(href)) return href;
     if (pathname === "/") return href;
     if (href === "#top") return "/";
     if (href === "#about") return "/about";

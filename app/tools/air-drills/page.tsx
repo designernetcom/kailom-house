@@ -6,59 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import SiteFooter from "../../components/SiteFooter";
 import SiteHeader from "../../components/SiteHeader";
 import { Arrow } from "../../components/site-shared";
-
-type AirDrillProduct = {
-  model: string;
-  description: string;
-  freeSpeed: string;
-  maxTorque: string;
-  airInlet: string;
-  hoseSize: string;
-  weight: string;
-  image?: string;
-  imageAlt?: string;
-};
-
-const products: AirDrillProduct[] = [
-  {
-    model: "KD-6C",
-    description: "3/8\" Straight Drill",
-    freeSpeed: "2500",
-    maxTorque: "10 mm",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "0.91",
-    image: "/assets/img/products/pneumatic-drill.jpeg",
-    imageAlt: "KD-6C straight air drill product image",
-  },
-  {
-    model: "KD-6102",
-    description: "3/8\" Reversible Pistol Drill",
-    freeSpeed: "1800",
-    maxTorque: "10 mm",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "1.1",
-  },
-  {
-    model: "KD-6117",
-    description: "1/2\" Reversible Pistol Drill",
-    freeSpeed: "800",
-    maxTorque: "13 mm",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "1.4",
-  },
-  {
-    model: "KD-6130",
-    description: "1/2\" Reversible Pistol Drill",
-    freeSpeed: "800",
-    maxTorque: "13 mm",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "1.4",
-  },
-];
+import { airDrillProducts } from "./air-drill-products";
 
 function Label({ number, children }: { number: string; children: React.ReactNode }) {
   return (
@@ -69,10 +17,15 @@ function Label({ number, children }: { number: string; children: React.ReactNode
   );
 }
 
+function specificationValue(product: (typeof airDrillProducts)[number], label: string) {
+  return product.specifications.find((specification) => specification.label === label)?.value ?? "—";
+}
+
 export default function AirDrillsPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLButtonElement>(null);
+  const modelCount = String(airDrillProducts.length).padStart(2, "0");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -97,8 +50,8 @@ export default function AirDrillsPage() {
       <main id="main" inert={menuOpen}>
         <section className="catalogue-intro" aria-labelledby="air-drills-title">
           <div className="shell">
-            <Link className="catalogue-breadcrumb" href="/tools/impact-wrenches">
-              Kailom Tools <Arrow /> Air Drills
+            <Link className="catalogue-breadcrumb" href="/#products">
+              Tools <Arrow /> Kailom Tools <Arrow /> Air Drills
             </Link>
             <div className="catalogue-intro-grid">
               <div>
@@ -110,7 +63,7 @@ export default function AirDrillsPage() {
               </p>
             </div>
             <div className="catalogue-meta-rail">
-              <span><b>04</b> models listed</span>
+              <span><b>{modelCount}</b> models listed</span>
               <span><b>01</b> tool family</span>
               <span><b>RPM</b> performance data</span>
               <span className="micro">Kailom House / 2026 catalogue</span>
@@ -118,14 +71,14 @@ export default function AirDrillsPage() {
           </div>
         </section>
 
-        <section className="catalogue-specs section" aria-labelledby="air-drills-specs-title">
+        <section className="catalogue-specs section" id="specifications" aria-labelledby="air-drills-specs-title">
           <div className="shell">
             <div className="catalogue-section-heading">
               <div>
                 <Label number="01">Air drills specifications</Label>
                 <h2 id="air-drills-specs-title">Compare the range <em>at a glance.</em></h2>
               </div>
-              <p>Values are shown exactly as supplied. Scroll horizontally on smaller screens to view every column.</p>
+              <p>Reference values are shown exactly as supplied. Scroll horizontally on smaller screens to view every column.</p>
             </div>
             <div className="catalogue-table-wrap" tabIndex={0} aria-label="Air drills specifications table">
               <table className="catalogue-table">
@@ -141,15 +94,19 @@ export default function AirDrillsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {products.map((product) => (
+                  {airDrillProducts.map((product) => (
                     <tr key={product.model}>
-                      <th scope="row">{product.model}</th>
-                      <td>{product.description}</td>
-                      <td>{product.freeSpeed}</td>
-                      <td>{product.maxTorque}</td>
-                      <td>{product.airInlet}</td>
-                      <td>{product.hoseSize}</td>
-                      <td>{product.weight}</td>
+                      <th scope="row">
+                        <Link className="catalogue-model-link" href={`/tools/air-drills/${product.slug}`}>
+                          {product.model}<span aria-hidden="true"> ↗</span>
+                        </Link>
+                      </th>
+                      <td>{product.name}</td>
+                      <td>{specificationValue(product, "Free Speed (RPM)")}</td>
+                      <td>{specificationValue(product, "Maximum Torque (Nm)")}</td>
+                      <td>{specificationValue(product, "Air Inlet (NPT)")}</td>
+                      <td>{specificationValue(product, "Hose Size ID (mm)")}</td>
+                      <td>{specificationValue(product, "Weight (kg)")}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -165,16 +122,21 @@ export default function AirDrillsPage() {
                 <Label number="02">Air drills product images</Label>
                 <h2 id="air-drills-gallery-title">Choose the format <em>for the work.</em></h2>
               </div>
-              <p>One model-specific air drill image is currently available in the project assets. The remaining cards stay marked until their correct photography is supplied.</p>
+              <p>A representative air-drill image is shown where available. Additional model photography can be added as the correct assets are supplied.</p>
             </div>
             <div className="catalogue-gallery catalogue-gallery--air-drills">
-              {products.map((product, index) => (
-                <article className="catalogue-product-card" key={product.model}>
+              {airDrillProducts.map((product, index) => (
+                <Link
+                  className="catalogue-product-card"
+                  href={`/tools/air-drills/${product.slug}`}
+                  key={product.model}
+                  aria-label={`View ${product.model} product page`}
+                >
                   <div className="catalogue-product-image">
-                    {product.image ? (
+                    {product.images[0] ? (
                       <Image
-                        src={product.image}
-                        alt={product.imageAlt ?? `${product.model} air drill product image`}
+                        src={product.images[0].src}
+                        alt={product.images[0].alt}
                         fill
                         sizes="(max-width: 700px) 50vw, (max-width: 1000px) 50vw, 25vw"
                         className="catalogue-product-image-media"
@@ -189,9 +151,10 @@ export default function AirDrillsPage() {
                   </div>
                   <div className="catalogue-product-caption">
                     <strong>{product.model}</strong>
-                    <span>{product.description}</span>
+                    <span>{product.name}</span>
+                    <span className="catalogue-product-link">View product <Arrow /></span>
                   </div>
-                </article>
+                </Link>
               ))}
             </div>
           </div>

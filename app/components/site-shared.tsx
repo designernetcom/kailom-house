@@ -1,12 +1,13 @@
 import Image from "next/image";
 
 export const navItems = [
-  ["Home", "#top"],
-  ["About", "/about"],
+  ["Home", "https://www.paceassemblytools.com/"],
+  ["About us", "/about"],
   ["Tools", "#products"],
-  ["Solutions", "#solutions"],
-  ["Clients", "#clients"],
-  ["Contact", "#contact"],
+  ["Industry 4.0", "#solutions"],
+  ["Micro-Machines & Tools", "#products"],
+  ["Training & Services", "#contact"],
+  ["Contact Us", "https://www.paceassemblytools.com/contact-pat.php"],
 ] as const;
 
 type ToolItem = {
@@ -26,16 +27,44 @@ export const toolsItems: readonly ToolItem[] = [
       { label: "AIR DRILLS", href: "/tools/air-drills" },
       { label: "ABRASIVE TOOLS", href: "/tools/abrasive-tools" },
       { label: "AIR RIVETERS / NUT SETTERS / AIR HAMMERS", href: "/tools/air-riveters" },
-      "ENGRAVING TOOL / AIR SAW / FILER",
+      { label: "ENGRAVING TOOL / AIR SAW / FILER", href: "/tools/engraving-tools" },
     ],
   },
-  { label: "Airboss (Pneumatic Tools)", hasSubmenu: true },
-  { label: "Mountz (Tools & Torque Testers)", hasSubmenu: true },
-  { label: "Firebird (Pneumatic Tools)", hasSubmenu: true },
-  { label: "TecnoGi (Torque Wrenches)", hasSubmenu: false },
+  {
+    label: "Mountz (Tools & Torque Testers)",
+    hasSubmenu: true,
+    children: [
+      { label: "Torque Analyzers & Sensors", href: "/tools/torque-analyzers" },
+      "Power Assembly Tools",
+      "Torque Wrenches",
+    ],
+  },
+  {
+    label: "Firebird (Pneumatic Tools)",
+    hasSubmenu: true,
+    children: ["Impact Wrenches", "Ratchet Wrenches", "Impact Drivers"],
+  },
   { label: "FAR (Fastening Tools)", hasSubmenu: false },
-  { label: "Bosch (Power Tools)", hasSubmenu: false },
   { label: "Torero (Oil Pulse Tools)", hasSubmenu: false },
+] as const;
+
+export const industryItems: readonly ToolItem[] = [
+  {
+    label: "KUKEN Japan (Nutrunners)",
+    hasSubmenu: true,
+    children: ["PTS", "KAC"],
+  },
+  {
+    label: "Nucmo Tools",
+    hasSubmenu: true,
+    children: ["Intelligent Tightening Control System", "Intelligent Counting Screwdriver"],
+  },
+  {
+    label: "Torero Battery Tools",
+    hasSubmenu: true,
+    children: ["Clutch type screwdriver", "Electric Oil Pulse Tools"],
+  },
+  { label: "Conos", hasSubmenu: false },
 ] as const;
 
 export function Arrow({ down = false }: { down?: boolean }) {

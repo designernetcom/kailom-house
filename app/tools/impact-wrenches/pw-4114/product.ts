@@ -4,13 +4,14 @@ const product: ProductDetail = {
   slug: "pw-4114",
   model: "PW-4114",
   name: "1/2\" Mini Impact Wrench",
-  category: "PAT Impact Wrenches",
+  brand: "PAT",
+  category: "Impact Wrenches",
   categoryHref: "/tools/impact-wrenches",
   description:
     "The PW-4114 is a compact pneumatic mini impact wrench featuring a composite motor housing, twin hammer mechanism, convenient one-hand forward and reverse operation, and a variable speed trigger.",
   images: [
     {
-      src: "/assets/img/products/pneumatic-impact-tool.jpeg",
+      src: "/assets/img/products/impact-wrenches/KW-4114.png",
       alt: "PW-4114 1/2 inch Mini Impact Wrench",
     },
   ],

@@ -19,8 +19,11 @@ export type ProductSpecification = {
 
 export type ProductDetail = {
   slug: string;
+  sharePath?: string;
   model: string;
   name: string;
+  tagline?: string;
+  brand: string;
   category: string;
   categoryHref: string;
   description: string;
@@ -67,6 +70,8 @@ function ProductBreadcrumb({ product }: { product: ProductDetail }) {
       <Link href="/">Home</Link>
       <span aria-hidden="true">/</span>
       <Link href="/#products">Products</Link>
+      <span aria-hidden="true">/</span>
+      <span>{product.brand}</span>
       <span aria-hidden="true">/</span>
       <Link href={product.categoryHref}>{product.category}</Link>
       <span aria-hidden="true">/</span>
@@ -123,7 +128,7 @@ function ProductImageGallery({ product }: { product: ProductDetail }) {
 }
 
 function ProductShare({ product }: { product: ProductDetail }) {
-  const shareUrl = `/tools/impact-wrenches/${product.slug}`;
+  const shareUrl = product.sharePath ?? `/tools/impact-wrenches/${product.slug}`;
   const shareText = `${product.name} (${product.model})`;
   const shareLinks: { channel: ShareChannel; label: string; href: string; external: boolean }[] = [
     {
@@ -202,10 +207,10 @@ function ProductOverview({ product }: { product: ProductDetail }) {
       <div className="shell product-overview-grid">
         <ProductImageGallery product={product} />
         <div className="product-overview-info">
-          <p className="product-category-label"><i /> {product.category}</p>
+          <p className="product-category-label"><i /> {product.brand} {product.category}</p>
           <h1 id="product-title">{product.name}</h1>
           <p className="product-model">Model No. <span>—</span> <strong>{product.model}</strong></p>
-          <span className="product-name-tag">{product.name}</span>
+          <span className="product-name-tag">{product.tagline ?? product.name}</span>
           <p className="product-introduction">{product.description}</p>
 
           <div className="product-overview-block">
@@ -331,36 +336,11 @@ function ProductQuoteForm({ product }: { product: ProductDetail }) {
 
     setStatus("submitting");
 
-    try {
-      const response = await fetch("/api/enquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fullName: getFormValue(formData, "fullName"),
-          companyName: getFormValue(formData, "companyName"),
-          email: getFormValue(formData, "email"),
-          phone: getFormValue(formData, "phone"),
-          quantity: getFormValue(formData, "quantity"),
-          message: getFormValue(formData, "message"),
-          productName: product.name,
-          modelNumber: product.model,
-          category: product.category,
-          productUrl: window.location.href,
-        }),
-      });
-      const responseBody = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        throw new Error(typeof responseBody.error === "string" ? responseBody.error : "We could not send your enquiry.");
-      }
-
-      setStatus("success");
-      setStatusMessage("Your enquiry has been sent. Our team will get in touch with you.");
-      form.reset();
-    } catch (error) {
-      setStatus("error");
-      setStatusMessage(error instanceof Error ? error.message : "We could not send your enquiry. Please try again.");
-    }
+    // Product pages are intentionally frontend-only during the static catalogue phase.
+    // The validated form state is kept ready for the future enquiry API integration.
+    setStatus("success");
+    setStatusMessage("Your enquiry is ready. Online delivery will be connected in the next phase.");
+    form.reset();
   }
 
   return (
@@ -369,15 +349,15 @@ function ProductQuoteForm({ product }: { product: ProductDetail }) {
         <div className="product-quote-context">
           <p className="section-label"><span>03</span> Enquiry</p>
           <h2 id="request-quote-title">Request a Quote</h2>
-          <p>Interested in the PW-4114 Mini Impact Wrench? Send us your requirements and our team will get in touch with you.</p>
+          <p>Interested in the {product.name}? Send us your requirements and our team will get in touch with you.</p>
           <div className="product-quote-product">
             <div className="product-quote-thumbnail">
-              <Image src={product.images[0].src} alt="" fill sizes="128px" className="product-quote-thumbnail-image" />
+              {product.images[0] ? <Image src={product.images[0].src} alt="" fill sizes="128px" className="product-quote-thumbnail-image" /> : <span className="product-quote-thumbnail-placeholder">Image pending</span>}
             </div>
             <div>
               <strong>{product.name}</strong>
               <span>Model No. {product.model}</span>
-              <span>{product.category}</span>
+              <span>{product.brand} {product.category}</span>
             </div>
           </div>
           <p className="product-quote-instruction">Tell us about your quantity, delivery requirements or technical questions and we will take it from there.</p>
@@ -392,7 +372,7 @@ function ProductQuoteForm({ product }: { product: ProductDetail }) {
             <FormField label="Quantity Required" name="quantity" type="number" min="1" error={fieldErrors.quantity} />
             <FormField label="Message / Requirements" name="message" required error={fieldErrors.message} textarea />
           </div>
-          <p className="product-form-note">Product details are attached automatically: {product.model} / {product.category}.</p>
+          <p className="product-form-note">Product details are attached automatically: {product.brand} / {product.model} / {product.category}.</p>
           {statusMessage ? (
             <p className={`product-form-status product-form-status--${status}`} role={status === "error" ? "alert" : "status"} aria-live="polite">
               {statusMessage}
@@ -465,19 +445,25 @@ export default function ProductDetailPage({ product }: { product: ProductDetail 
     "@type": "Product",
     name: product.name,
     mpn: product.model,
+    brand: {
+      "@type": "Brand",
+      name: product.brand,
+    },
     category: product.category,
     description: product.description,
     image: product.images.map((image) => image.src),
-    url: `/tools/impact-wrenches/${product.slug}`,
+    url: product.sharePath ?? `/tools/impact-wrenches/${product.slug}`,
   };
+  const productPath = product.sharePath ?? `/tools/impact-wrenches/${product.slug}`;
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "/" },
       { "@type": "ListItem", position: 2, name: "Products", item: "/#products" },
-      { "@type": "ListItem", position: 3, name: product.category, item: product.categoryHref },
-      { "@type": "ListItem", position: 4, name: product.model, item: `/tools/impact-wrenches/${product.slug}` },
+      { "@type": "ListItem", position: 3, name: product.brand, item: product.categoryHref },
+      { "@type": "ListItem", position: 4, name: product.category, item: product.categoryHref },
+      { "@type": "ListItem", position: 5, name: product.model, item: productPath },
     ],
   };
 
@@ -503,7 +489,7 @@ export default function ProductDetailPage({ product }: { product: ProductDetail 
         <ProductQuoteForm product={product} />
         <div className="shell product-back-link-wrap">
           <Link className="product-back-link" href={product.categoryHref}>
-            <Arrow down /> Back to Impact Wrenches
+            <Arrow down /> Back to {product.category}
           </Link>
         </div>
       </main>

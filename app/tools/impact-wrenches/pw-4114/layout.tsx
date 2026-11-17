@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     url: "/tools/impact-wrenches/pw-4114",
     images: [
       {
-        url: "/assets/img/products/pneumatic-impact-tool.jpeg",
+        url: "/assets/img/products/impact-wrenches/KW-4114.png",
         alt: "PW-4114 1/2 inch Mini Impact Wrench",
       },
     ],

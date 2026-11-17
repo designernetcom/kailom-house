@@ -1,0 +1,171 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import SiteFooter from "../../components/SiteFooter";
+import SiteHeader from "../../components/SiteHeader";
+import { Arrow } from "../../components/site-shared";
+import { engravingToolProducts } from "./engraving-tool-products";
+
+function Label({ number, children }: { number: string; children: React.ReactNode }) {
+  return (
+    <p className="section-label">
+      <span>{number}</span>
+      {children}
+    </p>
+  );
+}
+
+function specificationValue(product: (typeof engravingToolProducts)[number], label: string) {
+  return product.specifications.find((specification) => specification.label === label)?.value ?? "—";
+}
+
+export default function EngravingToolsPage() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const menuRef = useRef<HTMLButtonElement>(null);
+  const modelCount = String(engravingToolProducts.length).padStart(2, "0");
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <div className="catalogue-page">
+      <a className="skip-link" href="#main">Skip to content</a>
+      <SiteHeader
+        menuOpen={menuOpen}
+        scrolled={scrolled}
+        menuRef={menuRef}
+        onMenuToggle={() => setMenuOpen((open) => !open)}
+        onNavigate={() => setMenuOpen(false)}
+        solid
+      />
+
+      <main id="main" inert={menuOpen}>
+        <section className="catalogue-intro" aria-labelledby="engraving-tools-title">
+          <div className="shell">
+            <Link className="catalogue-breadcrumb" href="/#products">
+              Tools <Arrow /> Kailom Tools <Arrow /> Engraving Tool / Air Saw / Filer
+            </Link>
+            <div className="catalogue-intro-grid">
+              <div>
+                <p className="eyebrow orange-text"><i /> Kailom tools / product catalogue</p>
+                <h1 id="engraving-tools-title">Engraving Tool <span>/ Air Saw / Filer</span></h1>
+              </div>
+              <p className="catalogue-intro-copy">
+                Compact pneumatic engraving, sawing and filing tools for controlled detail work, cutting and surface finishing.
+              </p>
+            </div>
+            <div className="catalogue-meta-rail">
+              <span><b>{modelCount}</b> models listed</span>
+              <span><b>03</b> tool formats</span>
+              <span><b>SPM</b> performance data</span>
+              <span className="micro">Kailom House / 2026 catalogue</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="catalogue-specs section" id="specifications" aria-labelledby="engraving-tools-specs-title">
+          <div className="shell">
+            <div className="catalogue-section-heading">
+              <div>
+                <Label number="01">Engraving tool / air saw / filer specifications</Label>
+                <h2 id="engraving-tools-specs-title">Compare the range <em>at a glance.</em></h2>
+              </div>
+              <p>Reference values are shown exactly as supplied in the catalogue image. Scroll horizontally on smaller screens to view every column.</p>
+            </div>
+            <div className="catalogue-table-wrap" tabIndex={0} aria-label="Engraving tool, air saw and filer specifications table">
+              <table className="catalogue-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Model</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Blow / Strokes<br /><span>Per Minute</span></th>
+                    <th scope="col">Stroke Length<br /><span>(mm)</span></th>
+                    <th scope="col">Air Inlet<br /><span>(NPT)</span></th>
+                    <th scope="col">Hose Size ID<br /><span>(mm)</span></th>
+                    <th scope="col">Weight<br /><span>(kg)</span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {engravingToolProducts.map((product) => (
+                    <tr key={product.model}>
+                      <th scope="row">
+                        <Link className="catalogue-model-link" href={`/tools/engraving-tools/${product.slug}`}>
+                          {product.model}<span aria-hidden="true"> ↗</span>
+                        </Link>
+                      </th>
+                      <td>{product.name}</td>
+                      <td>{specificationValue(product, "Blow / Strokes Per Minute")}</td>
+                      <td>{specificationValue(product, "Stroke Length (mm)")}</td>
+                      <td>{specificationValue(product, "Air Inlet (NPT)")}</td>
+                      <td>{specificationValue(product, "Hose Size ID (mm)")}</td>
+                      <td>{specificationValue(product, "Weight (kg)")}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section className="catalogue-gallery-section" id="models" aria-labelledby="engraving-tools-gallery-title">
+          <div className="shell">
+            <div className="catalogue-section-heading catalogue-gallery-heading">
+              <div>
+                <Label number="02">Engraving tool / air saw / filer product images</Label>
+                <h2 id="engraving-tools-gallery-title">Choose the format <em>for the work.</em></h2>
+              </div>
+              <p>The reference image shows three product formats. Model-specific image assets are not yet available in the project, so each card stays clearly marked until the correct photography is supplied.</p>
+            </div>
+            <div className="catalogue-gallery catalogue-gallery--air-drills">
+              {engravingToolProducts.map((product, index) => (
+                <Link
+                  className="catalogue-product-card"
+                  href={`/tools/engraving-tools/${product.slug}`}
+                  key={product.model}
+                  aria-label={`View ${product.model} product page`}
+                >
+                  <div className="catalogue-product-image">
+                    <div className="catalogue-image-placeholder" aria-label={`${product.model} product image pending`}>
+                      <span>Image pending</span>
+                      <small>Model-specific asset not supplied</small>
+                    </div>
+                    <span className="catalogue-image-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                  </div>
+                  <div className="catalogue-product-caption">
+                    <strong>{product.model}</strong>
+                    <span>{product.name}</span>
+                    <span className="catalogue-product-link">View product <Arrow /></span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="catalogue-enquiry" id="contact" aria-labelledby="engraving-tools-enquiry-title">
+          <div className="shell catalogue-enquiry-inner">
+            <div>
+              <p className="eyebrow"><i /> Selection support</p>
+              <h2 id="engraving-tools-enquiry-title">Need a closer match <em>to the application?</em></h2>
+            </div>
+            <div>
+              <p>Share your engraving, sawing or filing requirement, specification or model shortlist with Kailom House.</p>
+              <a className="button button-orange" href="mailto:sales.kailomhouse@gmail.com?subject=Engraving%20tool%20air%20saw%20filer%20enquiry">
+                Start an enquiry <Arrow />
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <SiteFooter menuOpen={menuOpen} />
+    </div>
+  );
+}

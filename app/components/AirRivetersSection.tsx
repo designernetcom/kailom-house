@@ -1,66 +1,6 @@
-type AirRiveterProduct = {
-  model: string;
-  description: string;
-  galleryLabel: string;
-  rpm: string;
-  capacity: string;
-  airInlet: string;
-  hoseSize: string;
-  weight: string;
-};
-
-const products: AirRiveterProduct[] = [
-  {
-    model: "KR-8805",
-    description: "Pop Riveters",
-    galleryLabel: "Pop Riveter Kit",
-    rpm: "—",
-    capacity: "3/32 to 3/16\"",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "1.5",
-  },
-  {
-    model: "KR-8815",
-    description: "Pop Riveters",
-    galleryLabel: "Pop Riveter",
-    rpm: "—",
-    capacity: "3/32 to 3/16\"",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "1.8",
-  },
-  {
-    model: "KH-7126",
-    description: "Riveting Hammers",
-    galleryLabel: "Riveting Hammer",
-    rpm: "3200 Bpm",
-    capacity: "—",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "1.6",
-  },
-  {
-    model: "KRH-9505X",
-    description: "Riveting Hammers",
-    galleryLabel: "Riveting Hammer",
-    rpm: "1560 Bpm",
-    capacity: "67",
-    airInlet: "1/4\"",
-    hoseSize: "10 mm",
-    weight: "1.7",
-  },
-  {
-    model: "CH-892",
-    description: "Air Chipping Hammer (Round)",
-    galleryLabel: "Air Chipping Hammer",
-    rpm: "2500 Bpm",
-    capacity: "125",
-    airInlet: "3/8\"",
-    hoseSize: "8 mm",
-    weight: "6.5 Kg",
-  },
-];
+import Link from "next/link";
+import { airRiveterProducts } from "../tools/air-riveters/air-riveter-products";
+import { Arrow } from "./site-shared";
 
 function Label({ number, children }: { number: string; children: React.ReactNode }) {
   return (
@@ -69,6 +9,10 @@ function Label({ number, children }: { number: string; children: React.ReactNode
       {children}
     </p>
   );
+}
+
+function specificationValue(product: (typeof airRiveterProducts)[number], label: string) {
+  return product.specifications.find((specification) => specification.label === label)?.value ?? "—";
 }
 
 export default function AirRivetersSection() {
@@ -99,15 +43,19 @@ export default function AirRivetersSection() {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
+              {airRiveterProducts.map((product) => (
                 <tr key={product.model}>
-                  <th scope="row">{product.model}</th>
-                  <td>{product.description}</td>
-                  <td>{product.rpm}</td>
-                  <td>{product.capacity}</td>
-                  <td>{product.airInlet}</td>
-                  <td>{product.hoseSize}</td>
-                  <td>{product.weight}</td>
+                  <th scope="row">
+                    <Link className="catalogue-model-link" href={`/tools/air-riveters/${product.slug}`}>
+                      {product.model}<span aria-hidden="true"> ↗</span>
+                    </Link>
+                  </th>
+                  <td>{product.name}</td>
+                  <td>{specificationValue(product, "RPM")}</td>
+                  <td>{specificationValue(product, "Capacity")}</td>
+                  <td>{specificationValue(product, "Air Inlet (NPT)")}</td>
+                  <td>{specificationValue(product, "Hose Size ID (mm)")}</td>
+                  <td>{specificationValue(product, "Weight (kgs)")}</td>
                 </tr>
               ))}
             </tbody>
@@ -115,8 +63,13 @@ export default function AirRivetersSection() {
         </div>
 
         <div className="air-riveters-gallery catalogue-gallery" aria-label="Air riveters, nut setters and air hammers product images">
-          {products.map((product, index) => (
-            <article className="catalogue-product-card" key={product.model}>
+          {airRiveterProducts.map((product, index) => (
+            <Link
+              className="catalogue-product-card"
+              href={`/tools/air-riveters/${product.slug}`}
+              key={product.model}
+              aria-label={`View ${product.model} product page`}
+            >
               <div className="catalogue-product-image">
                 <div className="catalogue-image-placeholder" aria-label={`${product.model} product image pending`}>
                   <span>Image pending</span>
@@ -126,9 +79,10 @@ export default function AirRivetersSection() {
               </div>
               <div className="catalogue-product-caption">
                 <strong>{product.model}</strong>
-                <span>{product.galleryLabel}</span>
+                <span>{product.name}</span>
+                <span className="catalogue-product-link">View product <Arrow /></span>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>
