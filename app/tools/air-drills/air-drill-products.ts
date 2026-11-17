@@ -61,8 +61,8 @@ export const airDrillProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "0.91",
-    image: "/assets/img/products/pneumatic-drill.jpeg",
-    imageAlt: "Representative Kailom pneumatic air drill image for KD-6C",
+    image: "/assets/img/products/air-drills/KD-6C.png",
+    imageAlt: "KD-6C 3/8 inch Straight Drill - Kailom",
   }),
   makeAirDrillProduct({
     model: "KD-6102",
@@ -73,6 +73,8 @@ export const airDrillProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "1.1",
+    image: "/assets/img/products/air-drills/KD-6102.png",
+    imageAlt: "KD-6102 3/8 inch Reversible Pistol Drill - Kailom",
   }),
   makeAirDrillProduct({
     model: "KD-6117",
@@ -83,6 +85,8 @@ export const airDrillProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "1.4",
+    image: "/assets/img/products/air-drills/KD-6117.png",
+    imageAlt: "KD-6117 1/2 inch Reversible Pistol Drill - Kailom",
   }),
   makeAirDrillProduct({
     model: "KD-6130",
@@ -93,6 +97,8 @@ export const airDrillProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "1.4",
+    image: "/assets/img/products/air-drills/KD-6130.png",
+    imageAlt: "KD-6130 1/2 inch Reversible Pistol Drill - Kailom",
   }),
 ];
 

@@ -9,6 +9,8 @@ type AirRiveterProductInput = {
   airInlet: string;
   hoseSize: string;
   weight: string;
+  image?: string;
+  imageAlt?: string;
 };
 
 function makeAirRiveterProduct(input: AirRiveterProductInput): ProductDetail {
@@ -24,7 +26,9 @@ function makeAirRiveterProduct(input: AirRiveterProductInput): ProductDetail {
     category: "Air Riveters, Nut Setters & Air Hammers",
     categoryHref: "/tools/air-riveters",
     description,
-    images: [],
+    images: input.image
+      ? [{ src: input.image, alt: input.imageAlt ?? `${input.model} product image` }]
+      : [],
     features: [
       input.name,
       `RPM: ${input.rpm}`,
@@ -54,6 +58,8 @@ export const airRiveterProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "1.5",
+    image: "/assets/img/products/air-riveters/KR-8805.png",
+    imageAlt: "KR-8805 Pop Riveter - Kailom",
   }),
   makeAirRiveterProduct({
     model: "KR-8815",
@@ -64,6 +70,8 @@ export const airRiveterProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "1.8",
+    image: "/assets/img/products/air-riveters/KR-8815.png",
+    imageAlt: "KR-8815 Pop Riveter - Kailom",
   }),
   makeAirRiveterProduct({
     model: "KH-7126",
@@ -74,6 +82,8 @@ export const airRiveterProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "1.6",
+    image: "/assets/img/products/air-riveters/KH-7126.png",
+    imageAlt: "KH-7126 Riveting Hammer - Kailom",
   }),
   makeAirRiveterProduct({
     model: "KRH-9505X",
@@ -84,6 +94,8 @@ export const airRiveterProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "1.7",
+    image: "/assets/img/products/air-riveters/KRH-9505X.png",
+    imageAlt: "KRH-9505X Riveting Hammer - Kailom",
   }),
   makeAirRiveterProduct({
     model: "CH-892",
@@ -94,6 +106,8 @@ export const airRiveterProducts: ProductDetail[] = [
     airInlet: "3/8\"",
     hoseSize: "8 mm",
     weight: "6.5 Kg",
+    image: "/assets/img/products/air-riveters/CH-892.png",
+    imageAlt: "CH-892 Air Chipping Hammer - Kailom",
   }),
 ];
 

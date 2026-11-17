@@ -8,6 +8,8 @@ type AbrasiveToolProductInput = {
   airInlet: string;
   hoseSize: string;
   weight: string;
+  image?: string;
+  imageAlt?: string;
 };
 
 function makeAbrasiveToolProduct(input: AbrasiveToolProductInput): ProductDetail {
@@ -23,7 +25,9 @@ function makeAbrasiveToolProduct(input: AbrasiveToolProductInput): ProductDetail
     category: "Abrasive Tools",
     categoryHref: "/tools/abrasive-tools",
     description,
-    images: [],
+    images: input.image
+      ? [{ src: input.image, alt: input.imageAlt ?? `${input.model} product image` }]
+      : [],
     features: [
       input.name,
       `Free speed: ${input.freeSpeed} RPM`,
@@ -51,6 +55,8 @@ export const abrasiveToolProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "0.73",
+    image: "/assets/img/products/abrasive-tools/KG-5206M.png",
+    imageAlt: "KG-5206M 6 mm Heavy Duty Die Grinder - Kailom",
   }),
   makeAbrasiveToolProduct({
     model: "KG-512",
@@ -60,6 +66,8 @@ export const abrasiveToolProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "0.6",
+    image: "/assets/img/products/abrasive-tools/KG-512.png",
+    imageAlt: "KG-512 6 mm Die Grinder - Kailom",
   }),
   makeAbrasiveToolProduct({
     model: "KG-5001",
@@ -69,6 +77,8 @@ export const abrasiveToolProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "0.25",
+    image: "/assets/img/products/abrasive-tools/KG-5001.png",
+    imageAlt: "KG-5001 3 mm Micro Die Grinder - Kailom",
   }),
   makeAbrasiveToolProduct({
     model: "KG-522",
@@ -78,6 +88,8 @@ export const abrasiveToolProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "0.5",
+    image: "/assets/img/products/abrasive-tools/KG-522.png",
+    imageAlt: "KG-522 6 mm Angle Die Grinder - Kailom",
   }),
   makeAbrasiveToolProduct({
     model: "KAG-619",
@@ -87,6 +99,8 @@ export const abrasiveToolProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "1.8",
+    image: "/assets/img/products/abrasive-tools/KAG-619.png",
+    imageAlt: "KAG-619 4 inch Angle Grinder - Kailom",
   }),
   makeAbrasiveToolProduct({
     model: "KAS-6661-SM",
@@ -96,6 +110,8 @@ export const abrasiveToolProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "1.9",
+    image: "/assets/img/products/abrasive-tools/KAS-6661-SM.png",
+    imageAlt: "KAS-6661-SM 7 inch Angle Sander - Kailom",
   }),
   makeAbrasiveToolProduct({
     model: "KSAN-50VE",
@@ -105,6 +121,8 @@ export const abrasiveToolProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "0.81",
+    image: "/assets/img/products/abrasive-tools/KSAN-50VE.png",
+    imageAlt: "KSAN-50VE 5 inch Orbital Sander - Kailom",
   }),
   makeAbrasiveToolProduct({
     model: "KBS-4518",
@@ -114,6 +132,8 @@ export const abrasiveToolProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "0.95",
+    image: "/assets/img/products/abrasive-tools/KBS-4518.png",
+    imageAlt: "KBS-4518 10 mm Heavy Duty Belt Sander - Kailom",
   }),
   makeAbrasiveToolProduct({
     model: "KBS-4517",
@@ -123,6 +143,8 @@ export const abrasiveToolProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "1.4",
+    image: "/assets/img/products/abrasive-tools/KBS-4517.png",
+    imageAlt: "KBS-4517 20 mm Heavy Duty Belt Sander - Kailom",
   }),
   makeAbrasiveToolProduct({
     model: "MG-120",
@@ -132,6 +154,8 @@ export const abrasiveToolProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "6.4 mm",
     weight: "0.1",
+    image: "/assets/img/products/abrasive-tools/MG-120.png",
+    imageAlt: "MG-120 3 mm Air Micro Die Grinder - Kailom",
   }),
 ];
 

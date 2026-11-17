@@ -9,6 +9,8 @@ type EngravingToolProductInput = {
   airInlet: string;
   hoseSize: string;
   weight: string;
+  image?: string;
+  imageAlt?: string;
 };
 
 function makeEngravingToolProduct(input: EngravingToolProductInput): ProductDetail {
@@ -24,7 +26,9 @@ function makeEngravingToolProduct(input: EngravingToolProductInput): ProductDeta
     category: "Engraving Tool / Air Saw / Filer",
     categoryHref: "/tools/engraving-tools",
     description,
-    images: [],
+    images: input.image
+      ? [{ src: input.image, alt: input.imageAlt ?? `${input.model} product image` }]
+      : [],
     features: [
       input.name,
       `Blow / strokes per minute: ${input.blowOrStrokes}`,
@@ -54,6 +58,8 @@ export const engravingToolProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "0.2 kg",
+    image: "/assets/img/products/engraving-tools/KET-0573.png",
+    imageAlt: "KET-0573 Engraver Tool - Kailom",
   }),
   makeEngravingToolProduct({
     model: "KS-CSS311",
@@ -64,6 +70,8 @@ export const engravingToolProducts: ProductDetail[] = [
     airInlet: "1/4\"",
     hoseSize: "10 mm",
     weight: "0.5",
+    image: "/assets/img/products/engraving-tools/KS-CSS311.png",
+    imageAlt: "KS-CSS311 Air Saw - Kailom",
   }),
   makeEngravingToolProduct({
     model: "KAF-0825",
@@ -74,6 +82,8 @@ export const engravingToolProducts: ProductDetail[] = [
     airInlet: "-",
     hoseSize: "10 mm",
     weight: "1",
+    image: "/assets/img/products/engraving-tools/KAF-0825.png",
+    imageAlt: "KAF-0825 Air Filer - Kailom",
   }),
 ];
 

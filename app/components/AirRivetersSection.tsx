@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { airRiveterProducts } from "../tools/air-riveters/air-riveter-products";
 import { Arrow } from "./site-shared";
@@ -71,10 +72,20 @@ export default function AirRivetersSection() {
               aria-label={`View ${product.model} product page`}
             >
               <div className="catalogue-product-image">
-                <div className="catalogue-image-placeholder" aria-label={`${product.model} product image pending`}>
-                  <span>Image pending</span>
-                  <small>Model-specific asset not supplied</small>
-                </div>
+                {product.images[0] ? (
+                  <Image
+                    src={product.images[0].src}
+                    alt={product.images[0].alt}
+                    fill
+                    sizes="(max-width: 700px) 50vw, (max-width: 1000px) 33vw, 20vw"
+                    className="catalogue-product-image-media"
+                  />
+                ) : (
+                  <div className="catalogue-image-placeholder">
+                    <span>Image pending</span>
+                    <small>Model-specific asset not supplied</small>
+                  </div>
+                )}
                 <span className="catalogue-image-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
               </div>
               <div className="catalogue-product-caption">

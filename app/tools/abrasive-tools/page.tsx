@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import SiteFooter from "../../components/SiteFooter";
@@ -119,7 +120,7 @@ export default function AbrasiveToolsPage() {
                 <Label number="02">Abrasive tools product images</Label>
                 <h2 id="abrasive-tools-gallery-title">See every model <em>in sequence.</em></h2>
               </div>
-              <p>Model-specific abrasive tool photography is not yet available in the project assets, so each card is clearly marked until the correct image is supplied.</p>
+              <p>Each card uses the supplied model photography. Open a card to review the product specifications and request a quote.</p>
             </div>
             <div className="catalogue-gallery catalogue-gallery--abrasive-tools">
               {abrasiveToolProducts.map((product, index) => (
@@ -130,10 +131,20 @@ export default function AbrasiveToolsPage() {
                   aria-label={`View ${product.model} product page`}
                 >
                   <div className="catalogue-product-image">
-                    <div className="catalogue-image-placeholder" aria-label={`${product.model} product image pending`}>
-                      <span>Image pending</span>
-                      <small>Model-specific asset not supplied</small>
-                    </div>
+                    {product.images[0] ? (
+                      <Image
+                        src={product.images[0].src}
+                        alt={product.images[0].alt}
+                        fill
+                        sizes="(max-width: 700px) 50vw, (max-width: 1000px) 33vw, 20vw"
+                        className="catalogue-product-image-media"
+                      />
+                    ) : (
+                      <div className="catalogue-image-placeholder">
+                        <span>Image pending</span>
+                        <small>Model-specific asset not supplied</small>
+                      </div>
+                    )}
                     <span className="catalogue-image-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                   </div>
                   <div className="catalogue-product-caption">

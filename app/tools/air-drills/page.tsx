@@ -122,7 +122,7 @@ export default function AirDrillsPage() {
                 <Label number="02">Air drills product images</Label>
                 <h2 id="air-drills-gallery-title">Choose the format <em>for the work.</em></h2>
               </div>
-              <p>A representative air-drill image is shown where available. Additional model photography can be added as the correct assets are supplied.</p>
+              <p>Each card uses the supplied model photography. Open a card to review the product specifications and request a quote.</p>
             </div>
             <div className="catalogue-gallery catalogue-gallery--air-drills">
               {airDrillProducts.map((product, index) => (
