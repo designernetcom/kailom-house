@@ -1,13 +1,13 @@
 import Image from "next/image";
 
 export const navItems = [
-  ["Home", "https://www.paceassemblytools.com/"],
+  ["Home", "/"],
   ["About us", "/about"],
   ["Tools", "#products"],
   ["Industry 4.0", "#solutions"],
   ["Micro-Machines & Tools", "#products"],
   ["Training & Services", "#contact"],
-  ["Contact Us", "https://www.paceassemblytools.com/contact-pat.php"],
+  ["Contact Us", "/contact"],
 ] as const;
 
 type ToolItem = {
