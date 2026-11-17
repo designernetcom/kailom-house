@@ -66,8 +66,8 @@ export const toolsItems: readonly ToolItem[] = [
   },
   {
     label: "Firebird (Pneumatic Tools)",
-    hasSubmenu: true,
-    children: ["Impact Wrenches", "Ratchet Wrenches", "Impact Drivers"],
+    hasSubmenu: false,
+    href: "/tools/firebird",
   },
   { label: "FAR (Fastening Tools)", hasSubmenu: false },
   { label: "Torero (Oil Pulse Tools)", hasSubmenu: false },
