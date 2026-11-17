@@ -14,7 +14,13 @@ type ToolItem = {
   label: string;
   hasSubmenu: boolean;
   href?: string;
-  children?: readonly (string | { label: string; href: string })[];
+  children?: readonly (string | ToolNode)[];
+};
+
+export type ToolNode = {
+  label: string;
+  href?: string;
+  children?: readonly (string | ToolNode)[];
 };
 
 export const toolsItems: readonly ToolItem[] = [
@@ -34,9 +40,28 @@ export const toolsItems: readonly ToolItem[] = [
     label: "Mountz (Tools & Torque Testers)",
     hasSubmenu: true,
     children: [
-      { label: "Torque Analyzers & Sensors", href: "/tools/torque-analyzers" },
-      "Power Assembly Tools",
-      "Torque Wrenches",
+      {
+        label: "Torque Analyzers & Sensors",
+        children: [
+          { label: "Torque Analyzers", href: "/tools/torque-analyzers" },
+          { label: "Torque Sensors", href: "/tools/torque-sensors" },
+        ],
+      },
+      {
+        label: "Power Assembly Tools",
+        children: [
+          { label: "Electric Screwdrivers", href: "/tools/electric-screwdrivers" },
+          { label: "DC Control Tools", href: "/tools/dc-control-tools" },
+        ],
+      },
+      {
+        label: "Torque Wrenches",
+        children: [
+          { label: "Cam-Over Wrenches", href: "/tools/cam-over-wrenches" },
+          { label: "Break-Over Wrenches", href: "/tools/break-over-wrenches" },
+          { label: "Click Wrenches", href: "/tools/click-wrenches" },
+        ],
+      },
     ],
   },
   {

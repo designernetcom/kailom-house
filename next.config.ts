@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "www.paceassemblytools.com",
         pathname: "/images/mountz/torque-analyzers/**",
       },
+      {
+        protocol: "https",
+        hostname: "www.paceassemblytools.com",
+        pathname: "/images/mountz/torque-sensors/**",
+      },
     ],
   },
 };
