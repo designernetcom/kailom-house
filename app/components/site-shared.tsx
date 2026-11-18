@@ -69,7 +69,7 @@ export const toolsItems: readonly ToolItem[] = [
     hasSubmenu: false,
     href: "/tools/firebird",
   },
-  { label: "FAR (Fastening Tools)", hasSubmenu: false },
+  { label: "FAR (Fastening Tools)", hasSubmenu: false, href: "/tools/far-tools" },
   { label: "Torero (Oil Pulse Tools)", hasSubmenu: false, href: "/tools/torero-oil-pulse-tools" },
 ] as const;
 
