@@ -75,9 +75,9 @@ export const toolsItems: readonly ToolItem[] = [
 
 export const industryItems: readonly ToolItem[] = [
   {
-    label: "KUKEN Japan (Nutrunners)",
-    hasSubmenu: true,
-    children: ["PTS", "KAC"],
+    label: "KUKEN Japan",
+    hasSubmenu: false,
+    href: "/tools/kuken-air-tools",
   },
   {
     label: "Nucmo Tools",

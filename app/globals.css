@@ -7649,6 +7649,52 @@ summary:focus-visible {
   background: #fff;
 }
 
+/* KUKEN Japan PTS air tools gallery: six supplied model assets in a balanced grid. */
+.catalogue-gallery--kuken {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+}
+
+.catalogue-gallery--kuken .catalogue-product-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+.catalogue-gallery--kuken .catalogue-product-image {
+  aspect-ratio: 1 / 0.9;
+  background: #fff;
+}
+
+.catalogue-gallery--kuken .catalogue-product-caption {
+  min-height: 112px;
+  background: #fff;
+}
+
+.catalogue-table--kuken th:last-child,
+.catalogue-table--kuken td:last-child {
+  min-width: 240px;
+}
+
+@media (max-width: 1000px) {
+  .catalogue-gallery--kuken {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .catalogue-gallery--kuken {
+    gap: 12px;
+  }
+
+  .catalogue-gallery--kuken .catalogue-product-card {
+    border-radius: 13px;
+  }
+}
+
 @media (max-width: 1000px) {
   .catalogue-gallery--air-drills {
     grid-template-columns: repeat(2, minmax(0, 1fr));
