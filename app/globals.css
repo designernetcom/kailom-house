@@ -4672,7 +4672,7 @@ summary:focus-visible {
   width: 100%;
   height: auto;
   max-height: 690px;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
 }
 
