@@ -70,7 +70,7 @@ export const toolsItems: readonly ToolItem[] = [
     href: "/tools/firebird",
   },
   { label: "FAR (Fastening Tools)", hasSubmenu: false },
-  { label: "Torero (Oil Pulse Tools)", hasSubmenu: false },
+  { label: "Torero (Oil Pulse Tools)", hasSubmenu: false, href: "/tools/torero-oil-pulse-tools" },
 ] as const;
 
 export const industryItems: readonly ToolItem[] = [

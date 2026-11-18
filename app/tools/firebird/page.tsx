@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import SiteFooter from "../../components/SiteFooter";
@@ -56,7 +57,10 @@ export default function FirebirdPage() {
             <div className="catalogue-section-heading catalogue-gallery-heading"><div><Label number="02">Product images</Label><h2 id="firebird-gallery-title">Find the model <em>for the work.</em></h2></div><p>Open any model card for its full product page, technical data and quote request. The cards follow the model order in the supplied Firebird reference sheet.</p></div>
             <div className="catalogue-gallery firebird-gallery">
               {firebirdProducts.map((product, index) => <Link className="catalogue-product-card" href={`/tools/firebird/${product.slug}`} key={product.model} aria-label={`View ${product.model} product page`}>
-                <div className="catalogue-product-image"><div className="catalogue-image-placeholder"><span>{product.model}</span><small>{product.description}<br />{product.maximumTorque} Nm / {product.speed} RPM</small></div><span className="catalogue-image-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span></div>
+                <div className="catalogue-product-image">
+                  {product.images[0] ? <Image src={product.images[0].src} alt={product.images[0].alt} fill sizes="(max-width: 700px) 50vw, (max-width: 1000px) 33vw, 20vw" className="catalogue-product-image-media" priority={index < 2} /> : <div className="catalogue-image-placeholder"><span>{product.model}</span><small>{product.description}<br />{product.maximumTorque} Nm / {product.speed} RPM</small></div>}
+                  <span className="catalogue-image-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                </div>
                 <div className="catalogue-product-caption"><strong>{product.model}</strong><span>{product.description}</span><span className="catalogue-product-link">View product <Arrow /></span></div>
               </Link>)}
             </div>
